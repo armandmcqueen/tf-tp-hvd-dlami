@@ -58,7 +58,7 @@ BATCH_NORM=FreezeBN
 #BATCH_NORM=SyncBN
 
 DATE=`date '+%Y-%m-%d-%H-%M-%S'`
-RUN_ID=frcnn-coco-$NUM_PARALLEL-$FILE_SYSTEM-$DATE
+RUN_ID=mask-rcnn-coco-$NUM_PARALLEL-$FILE_SYSTEM-$DATE
 
 echo "Training started:" `date '+%Y-%m-%d-%H-%M-%S'`
 
@@ -78,10 +78,10 @@ python3 $SRC_DIR/examples/FasterRCNN/train.py \
 --config MODE_MASK=True \
 MODE_FPN=True \
 DATA.BASEDIR=$DATA_DIR \
-DATA.TRAIN='["train2017"]' \
-DATA.VAL=val2017 \
-TRAIN.EVAL_PERIOD=3 \
-TRAIN.STEPS_PER_EPOCH=625 \
+DATA.TRAIN='["train2014"]' \
+DATA.VAL=val2014 \
+TRAIN.EVAL_PERIOD=25 \
+TRAIN.STEPS_PER_EPOCH=500 \
 TRAIN.LR_SCHEDULE='[120000, 160000, 180000]' \
 BACKBONE.WEIGHTS=$DATA_DIR/pretrained-models/ImageNet-R50-AlignPadding.npz \
 BACKBONE.NORM=$BATCH_NORM \
