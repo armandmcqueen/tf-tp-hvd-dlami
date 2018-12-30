@@ -69,7 +69,7 @@ $MPIRUN -np $NUM_PARALLEL \
 --mca plm_rsh_no_tree_spawn 1 -bind-to none -map-by slot -mca pml ob1 -mca btl ^openib \
 -mca btl_tcp_if_exclude lo,docker0 \
 -x NCCL_SOCKET_IFNAME=^docker0 \
--x NCCL_MIN_NRINGS=8 -x NCCL_DEBUG=INFO \
+-x NCCL_MIN_NRINGS=16 -x NCCL_DEBUG=INFO \
 -x LD_LIBRARY_PATH -x PATH \
 -x HOROVOD_CYCLE_TIME -x HOROVOD_FUSION_THRESHOLD \
 --output-filename $LOG_DIR/$RUN_ID \
@@ -78,10 +78,10 @@ python3 $SRC_DIR/examples/FasterRCNN/train.py \
 --config MODE_MASK=True \
 MODE_FPN=True \
 DATA.BASEDIR=$DATA_DIR \
-DATA.TRAIN='["train2014"]' \
-DATA.VAL=val2014 \
-TRAIN.EVAL_PERIOD=25 \
-TRAIN.STEPS_PER_EPOCH=500 \
+DATA.TRAIN='["train2017"]' \
+DATA.VAL=val2017 \
+TRAIN.EVAL_PERIOD=3 \
+TRAIN.STEPS_PER_EPOCH=625 \
 TRAIN.LR_SCHEDULE='[120000, 160000, 180000]' \
 BACKBONE.WEIGHTS=$DATA_DIR/pretrained-models/ImageNet-R50-AlignPadding.npz \
 BACKBONE.NORM=$BATCH_NORM \
