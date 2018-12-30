@@ -60,6 +60,8 @@ BATCH_NORM=FreezeBN
 DATE=`date '+%Y-%m-%d-%H-%M-%S'`
 RUN_ID=frcnn-coco-$NUM_PARALLEL-$FILE_SYSTEM-$DATE
 
+echo "Training started:" `date '+%Y-%m-%d-%H-%M-%S'`
+
 HOROVOD_CYCLE_TIME=0.5 \
 HOROVOD_FUSION_THRESHOLD=67108864 \
 $MPIRUN -np $NUM_PARALLEL \
@@ -78,8 +80,11 @@ MODE_FPN=True \
 DATA.BASEDIR=$DATA_DIR \
 DATA.TRAIN='["train2014"]' \
 DATA.VAL=val2014 \
-TRAIN.EVAL_PERIOD=100 \
+TRAIN.EVAL_PERIOD=10 \
+TRAIN.STEPS_PER_EPOCH=500 \
 TRAIN.LR_SCHEDULE='[120000, 160000, 180000]' \
 BACKBONE.WEIGHTS=$DATA_DIR/pretrained-models/ImageNet-R50-AlignPadding.npz \
 BACKBONE.NORM=$BATCH_NORM \
 TRAINER=horovod
+
+echo "Training finished:" `date '+%Y-%m-%d-%H-%M-%S'`
