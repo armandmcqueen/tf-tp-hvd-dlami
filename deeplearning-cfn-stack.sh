@@ -8,40 +8,40 @@ STACK_NAME=mask-faster-rcnn
 CFN_TEMPLATE=deeplearning-cfn-template.json
 
 # Cutomize bucket name
-S3_BUCKET=aws-ajayvohra-ml-exp
+S3_BUCKET=
 
 # Cutomize bucket prefix 
-S3_PREFIX=faster-rcnn/dl-ami-cluster/input
+S3_PREFIX=
 
 # Customize CIDR for SSH 
-SSH_LOCATION=0.0.0.0/0
+SSH_LOCATION=
 
 # Data Tar file
-DATA_TAR=coco2014-data.tar
+DATA_TAR=
 
 # Source tar file
-SOURCE_TAR=tensorpack.tar
+SOURCE_TAR=
 
 # Number of workers, minimum 1, maximum n - 1 for cluster of size n
 NUM_WORKERS=1
 
 # EC2 AMI override; leave blank if using default AMI defined in template
-AMI_ID=ami-040b9ee28998fec31
+AMI_ID=
 
 # Leave blank if you need to create a new EFS file system
 EFS_ID=
 
 # EC2 instance type
-INSTANCE_TYPE=c4.2xlarge
+INSTANCE_TYPE=
 
 # EC2 key pair name
-KEY_NAME=saga
+KEY_NAME=
 
 # AWS Region; customize as needed 
-AWS_REGION=us-east-1
+AWS_REGION=
 
 # AWS Availability zone; customize as needed 
-AWS_AZ=us-east-1d
+AWS_AZ=
 
 aws cloudformation create-stack --region $AWS_REGION  --stack-name $STACK_NAME \
 --template-body file://$CFN_TEMPLATE \
