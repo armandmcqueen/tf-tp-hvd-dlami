@@ -9,11 +9,14 @@
 
 ## Create Amazon EC2 Deep-Learning AMI Cluster
 
-[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks, such as TensorFlow and Keras. PyTorch, Caffe, Caffe2, Apache MXNet and Gluon, and others.
+[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks, such as TensorFlow and Keras. PyTorch, Caffe, Caffe2, Apache MXNet and Gluon, among others.
 
-Our goal is to create a multi-machine cluster of EC2 instances that we can use for distributed machine-learning using any distributed machine learning framework in general, but specifically Horovod. This [blog](https://aws.amazon.com/blogs/machine-learning/scalable-multi-node-deep-learning-training-using-gpus-in-the-aws-cloud/) is an excellent background reference for what we are trying to accomplish in general.
+Our goal is to create a multi-machine cluster of EC2 instances that we can use for distributed machine-learning using any distributed machine learning framework in general, but specifically Horovod. This [blog](https://aws.amazon.com/blogs/machine-learning/scalable-multi-node-deep-learning-training-using-gpus-in-the-aws-cloud/) is a general background reference for what we are trying to accomplish specifically for distributed machine-learning our setup using TensorFlow, TensorPack and Horovod.
 
-To create the cluster, customize the file deeplearning-cfn-stack.sh file and execute it. Most of the variables defined in this shell script are self-explanatory, but a brief explanation on a subset of the variables is given below. 
+To create the cluster, customize deeplearning-cfn-stack.sh file and execute it. Most of the variables defined in this shell script are self-explanatory, but a brief explanation on a subset of the variables is given below. 
 
-### S3_BUCKET
+### S3_BUCKET, S3_PREFIX
+
+You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your S3 bucket. The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts.
+
 
