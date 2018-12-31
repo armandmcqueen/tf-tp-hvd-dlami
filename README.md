@@ -15,8 +15,8 @@ Our goal is to create a multi-machine cluster of EC2 instances that we can use f
 
 To create the cluster, customize deeplearning-cfn-stack.sh file and execute it. Most of the variables defined in this shell script are self-explanatory, but a brief explanation on a subset of the variables is given below. 
 
-### S3_BUCKET, S3_PREFIX
+### S3_BUCKET, S3_PREFIX, DATA_TAR, SOURCE_TAR
 
-You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your S3 bucket. The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts.
+You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your S3 bucket. The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts. The variables DATA_TAR and SOURCE_TAR define the name of the data and code TAR files available in your S3_BUCKET and at S3_PEFIX.
 
 
