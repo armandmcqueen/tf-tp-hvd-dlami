@@ -17,6 +17,9 @@ To create the cluster, customize deeplearning-cfn-stack.sh file and execute it. 
 
 ### S3_BUCKET, S3_PREFIX, DATA_TAR, SOURCE_TAR
 
-You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your S3 bucket. The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts. The variables DATA_TAR and SOURCE_TAR define the name of the data and code TAR files available in your S3_BUCKET and at S3_PEFIX.
+You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your [S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html). The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts. The variables DATA_TAR and SOURCE_TAR define the name of the data and code TAR files available in your S3_BUCKET and at S3_PEFIX. By convention, the run script is assumed to be named run.sh and setup script is assumed to be named setup.sh. However, you can customize these names in the shell script deeplearning-cfn-stack.sh file.
 
+### SSH_LOCATION, KEY_PAIR
+
+SSH_LOCATION variable defines the source CIDR for doing an SSH to the cluster Master node. This is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_PAIR varibale defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
 
