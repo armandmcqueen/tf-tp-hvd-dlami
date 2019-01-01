@@ -1,28 +1,29 @@
 #!/bin/bash
 
 
+# Cutomize bucket name
+S3_BUCKET=
+
 #Customize stack name as needed
 STACK_NAME=mask-faster-rcnn
 
 # cfn template name
 CFN_TEMPLATE=deeplearning-cfn-template.json
 
-# Cutomize bucket name
-S3_BUCKET=
-
-# Cutomize bucket prefix 
-S3_PREFIX=
+# Cutomize bucket prefix if needed
+S3_PREFIX=mask-faster-rcnn/deeplearning-ami/input
 
 # Customize CIDR for SSH 
-SSH_LOCATION=
+SSH_LOCATION=0.0.0.0/0
 
 # Data Tar file
-DATA_TAR=
+DATA_TAR=coco-2017.tar
 
 # Source tar file
-SOURCE_TAR=
+SOURCE_TAR=tensorpack.tar
 
 # Number of workers, minimum 1, maximum n - 1 for cluster of size n
+# Master node is also used as a worker node, hence n - 1 for cluster of size n
 NUM_WORKERS=1
 
 # EC2 AMI override; leave blank if using default AMI defined in template
@@ -32,16 +33,16 @@ AMI_ID=
 EFS_ID=
 
 # EC2 instance type
-INSTANCE_TYPE=
+INSTANCE_TYPE=p3dn.24xlarge
 
 # EC2 key pair name
 KEY_NAME=
 
 # AWS Region; customize as needed 
-AWS_REGION=
+AWS_REGION=us-east-1
 
 # AWS Availability zone; customize as needed 
-AWS_AZ=
+AWS_AZ=us-east-1d
 
 aws cloudformation create-stack --region $AWS_REGION  --stack-name $STACK_NAME \
 --template-body file://$CFN_TEMPLATE \
