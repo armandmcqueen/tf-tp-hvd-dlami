@@ -21,57 +21,35 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
 ### Quick Start Steps
 
-        1. Customize S3_BUCKET and S3_PREFIX variables in prepare-s3-bucket.sh and execute the script.
-           
-	   	S3_BUCKET variable must be set to an existing bucket. To optimize performance and cost,
-	   	it is recommended that S3_BUCKET be in the region where you plan to do distributed training. 
-		
-		STAGE_DIR variable in the script must point to a directory on an EBS volume with at least 
-		100 GB of available space. By default it points to the home directory.
-           
-           	This script downloads [Coco 2017](http://cocodataset.org/#download) dataset and Coco
-           	[COCO-R50FPN-MaskRCNN-Standard]
-           	(http://models.tensorpack.com/FasterRCNN/COCO-R50FPN-MaskRCNN-Standard.npz) pre-trained model. 
-           
-           	It bundles the COCO 2017 dataset and pre-trained model into a single 
-           	TAR file and uploads it to the S3_BUCKET/S3_PREFIX.
-           
-           	In addition, it uploads the shell scripts from this project to the S3_BUCKET/S3_PREFIX.
+1. Customize S3_BUCKET and S3_PREFIX variables in prepare-s3-bucket.sh and execute the script. S3_BUCKET variable must be set to an existing bucket. To optimize performance and cost, it is recommended that S3_BUCKET be in the region where you plan to do distributed training. 
+
+   STAGE_DIR variable in the script must point to a directory on an EBS volume with at least 100 GB of available space. By  default it points to the home directory.
+
+   This script downloads [Coco 2017](http://cocodataset.org/#download) dataset and Coco [COCO-R50FPN-MaskRCNN-Standard] (http://models.tensorpack.com/FasterRCNN/COCO-R50FPN-MaskRCNN-Standard.npz) pre-trained model. 
+
+   It bundles the COCO 2017 dataset and pre-trained model into a single TAR file and uploads it to the S3_BUCKET/S3_PREFIX. In addition, it uploads the shell scripts from this project to the S3_BUCKET/S3_PREFIX.
   
-        2. Customize variables in deeplearning-cfn-stack.sh and execute the script. 
-           
-           	You will need to specify S3_BUCKET and S3_PREFIX variables. 
-           	See SSH_LOCATION and KEY_NAME Variables section below.
-           
-           	The output of executing the script is a [CloudFormation Stack]       
-           	(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
+2. Customize variables in deeplearning-cfn-stack.sh and execute the script. You will need to specify S3_BUCKET and S3_PREFIX variables. See SSH_LOCATION and KEY_NAME Variables section below. The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
 
-        3.  Check status of CloudFormation Stack you created in AWS management console. 
-            When stack status is CREATE_COMPLETE, proceed to next step.
+3.  Check status of CloudFormation Stack you created in AWS management console. When stack status is CREATE_COMPLETE, proceed to next step.
 
-        4. On your desktop  execute, 
+4. On your desktop  execute:
+```ssh-add <private key file>```
+
+5. Use SSH with forwarding agent to connect to Master Node:  ```ssh -A ubuntu@<master node>```
+
+6. Once you are logged on the Master node, execute in home direcotry: 
+```nohup tar -xf /efs/coco-2017.tar --directory /efs &```
+		
+Extraction of coco-2017.tar on EFS shared file system will take a while. 
+When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
         
-                ssh-add <private key file>
-
-        5. Use SSH with forwarding agent to connect to Master Node: 
-
-                ssh -A ubuntu@<master node>
-
-        6. Once you are logged on the Master node, execute in home direcotry:
-
-                nohup tar -xf /efs/coco-2017.tar --directory /efs &
-
-          	Extraction of coco-2017.tar on EFS shared file system will take a while. 
-          	When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
-        
-        7. From home directory on Master node, execute following command to start distributed training:
-                        
-                nohup ./run.sh 1>run.out 2>&1 &
+7. From home directory on Master node, execute following command to start distributed training: 
+```nohup ./run.sh 1>run.out 2>&1 &```
                 
-        8. Model checkpoints and log directory name and location is defined in run.sh and by default is created under /efs
+8. Model checkpoints and log directory name and location is defined in run.sh and by default is created under /efs
         
-        9. When the training is complete, you may safely delete the CloudFormation stack created in Step 2 above. 
-           The log files and model checkpoints are saved on EFS file-system, which is not automatically deleted.
+9. When the training is complete, you may safely delete the CloudFormation stack created in Step 2 above. The log files and model checkpoints are saved on EFS file-system, which is not automatically deleted.
 
 ### Detailed Explanation
 
