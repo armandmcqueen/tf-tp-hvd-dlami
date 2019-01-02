@@ -43,7 +43,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
         4. On your desktop  execute, 
         
-                ssh-add <private key>
+                ssh-add <private key file>
 
         5. Once the Master node of the cluster is ready in AWS Management Console, 
 
@@ -88,6 +88,6 @@ Distributed machine-learning in general and this specific setup are not automati
 You can use the provided cluster-health-check.sh shell script to determine cluster health.
 
 #### SSH_LOCATION, KEY_NAME Variables
+SSH_LOCATION variable used in deeplearning-cfn-stack.sh defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. The default value of this variable allows access from any location, which is not recommended practice, so you are advised to change it to your specific CIDR.
 
-SSH_LOCATION variable used in deeplearning-cfn-stack.sh defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_NAME variable in deeplearning-cfn-stack.sh defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
-
+KEY_NAME variable in deeplearning-cfn-stack.sh defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
