@@ -7,6 +7,8 @@
 
 3. [Install and configure AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 
+4. The Quick Start Steps described below require adequate [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) permissions.
+
 ## Create Amazon EC2 Deep-Learning AMI Cluster
 
 [Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks. Our goal is to create a multi-machine cluster of EC2 instances using Amazon Machine Learning AMI. This [blog](https://aws.amazon.com/blogs/compute/distributed-deep-learning-made-easy/) is a general background reference for what we are trying to accomplish. In our setup, we are focused on distirbuted training using [TensorFlow](https://github.com/tensorflow/tensorflow), [TensorPack](https://github.com/tensorpack/tensorpack) and [Horovod](https://eng.uber.com/horovod/), so we will be using our own [CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) template.
