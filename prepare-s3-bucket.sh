@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Customize S3_BUCKET
-S3_BUCKET=aws-ajayvohra-ml-exp
+S3_BUCKET=
 
 # Customize S3_PREFIX
 S3_PREFIX=mask-rcnn/deeplearning-ami/input
