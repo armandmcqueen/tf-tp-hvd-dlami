@@ -9,17 +9,41 @@
 
 ## Create Amazon EC2 Deep-Learning AMI Cluster
 
-[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks, such as TensorFlow and Keras. PyTorch, Caffe, Caffe2, Apache MXNet and Gluon, among others.
+[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks. Our goal is to create a multi-machine cluster of EC2 instances using Amazon Machine Learning AMI. This [blog](https://aws.amazon.com/blogs/machine-learning/scalable-multi-node-deep-learning-training-using-gpus-in-the-aws-cloud/) is a general background reference for what we are trying to accomplish. In our setup, we are focused on distirbuted training using TensorFlow, TensorPack and Horovod.
 
-Our goal is to create a multi-machine cluster of EC2 instances that we can use for distributed machine-learning using any distributed machine learning framework in general, but specifically Horovod. This [blog](https://aws.amazon.com/blogs/machine-learning/scalable-multi-node-deep-learning-training-using-gpus-in-the-aws-cloud/) is a general background reference for what we are trying to accomplish specifically for distributed machine-learning our setup using TensorFlow, TensorPack and Horovod.
+## TensorPack Mask/Faster-RCNN Example
 
-To create the cluster, customize deeplearning-cfn-stack.sh file and execute it. Most of the variables defined in this shell script are self-explanatory, but a brief explanation on a subset of the variables is given below. 
+Specifically, our goal is to do distributed training for TensorPack Mask/Faster-RCNN example using TensorFlow, TensorPack and Horovod.
 
-### S3_BUCKET, S3_PREFIX, DATA_TAR, SOURCE_TAR
+### Steps
 
-You will use an S3_BUCKET to stage data, machine-learning algorithm code (which in our case is TensorPack), and training setup and run scripts. The variable S3_BUCKET defines the name of your [S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html). The variable S3_PREFIX defines the common prefix for the folder that contains your data TAR file, code TAR file, and setup and run scripts. The variables DATA_TAR and SOURCE_TAR define the name of the data and code TAR files available in your S3_BUCKET and at S3_PEFIX. By convention, the run script is assumed to be named run.sh and setup script is assumed to be named setup.sh. However, you can customize these names in the shell script deeplearning-cfn-stack.sh file.
+        1. Customize S3_BUCKET variable in prepare-s3-bucket.sh and execute the script
+  
+        2. Customize variables in deeplearning-cfn-stack.sh and execute the script. 
+           The output of executing the script is a CloudFomration Stack ID.
 
-### SSH_LOCATION, KEY_PAIR
+        3.  Check status of CloudFomation Stack in AWS management console. 
+            When stack is created, proceed to next step.
 
-SSH_LOCATION variable defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_PAIR variable defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
+        4. On your desktop  execute, 
+        
+                ssh-add <private key>
+
+        5. Once the Master node of the cluster is ready in AWS Management Console, 
+
+                ssh -A ubuntu@<master node>
+
+        6. Once you are logged on the Master node, execute 
+
+                nohup tar -xf /efs/coco-2017.tar --directory /efs &
+
+          Extraction of coco-2017.tar on EFS shared file system will take a while.
+        
+        8. Once coco-2017.tar ix extracted under /efs, execute from home directory on Master node, 
+                        
+                nohup ./run.sh 1>run.out 2>&1 &
+
+### SSH_LOCATION, KEY_NAME
+
+SSH_LOCATION variable defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_NAME variable defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
 
