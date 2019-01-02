@@ -22,7 +22,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 ### Quick Start Steps
 
         1. Customize S3_BUCKET and S3_PREFIX variables in prepare-s3-bucket.sh and execute the script.
-           S3_BUCKET variable must be set to an existing bucket. To optimize performance and minimze overall cost, 
+           S3_BUCKET variable must be set to an existing bucket. To optimize performance and cost,
 	   it is recommended that S3_BUCKET be in the region where you plan to do distributed training. 
            
            This script downloads [Coco 2017](http://cocodataset.org/#download) dataset and Coco
