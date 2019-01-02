@@ -20,8 +20,8 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
         1. Customize S3_BUCKET and S3_PREFIX variables in prepare-s3-bucket.sh and execute the script. 
            
            This script downloads [Coco 2017](http://cocodataset.org/#download) dataset and Coco
-           [COCO-R50FPN-MaskRCNN-Standard](http://models.tensorpack.com/FasterRCNN/COCO-R50FPN-MaskRCNN-Standard.npz) 
-           pre-trained model. 
+           [COCO-R50FPN-MaskRCNN-Standard]
+           (http://models.tensorpack.com/FasterRCNN/COCO-R50FPN-MaskRCNN-Standard.npz) pre-trained model. 
            
            It bundles the COCO 2017 dataset and pre-trained model into a single 
            TAR file and uploads it to the S3_BUCKET/S3_PREFIX.
@@ -33,7 +33,8 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
            You will need to specify S3_BUCKET and S3_PREFIX variables. 
            See SSH_LOCATION and KEY_NAME Variables section below.
            
-           The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
+           The output of executing the script is a [CloudFormation Stack]       
+           (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
 
         3.  Check status of CloudFormation Stack you created in AWS management console. 
             When stack status is CREATE_COMPLETE, proceed to next step.
