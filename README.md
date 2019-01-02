@@ -39,7 +39,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
           Extraction of coco-2017.tar on EFS shared file system will take a while.
         
-        8. Once coco-2017.tar ix extracted under /efs, execute from home directory on Master node, 
+        7. Once coco-2017.tar ix extracted under /efs, execute from home directory on Master node, 
                         
                 nohup ./run.sh 1>run.out 2>&1 &
 
