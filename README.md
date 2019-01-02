@@ -42,6 +42,8 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
         7. Once coco-2017.tar ix extracted under /efs, execute from home directory on Master node, 
                         
                 nohup ./run.sh 1>run.out 2>&1 &
+                
+        8. Log directory based on RUN_ID will be created under /efs
 
 ### SSH_LOCATION, KEY_NAME
 
