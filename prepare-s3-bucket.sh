@@ -8,7 +8,7 @@ S3_PREFIX=mask-rcnn/deeplearning-ami/input
 
 # Customize Stage DIR
 # Stage directory must be on EBS volume with 100 GB available space
-STAGE_DIR=/u2/stage
+STAGE_DIR=$HOME/stage
 
 if [ -e $STAGE_DIR ]
 then
