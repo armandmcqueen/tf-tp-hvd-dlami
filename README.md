@@ -47,7 +47,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
         
                 ssh-add <private key file>
 
-        5. Once the Master node of the cluster is ready in AWS Management Console, 
+        5. Use SSH with forwarding agent to connect to Master Node: 
 
                 ssh -A ubuntu@<master node>
 
