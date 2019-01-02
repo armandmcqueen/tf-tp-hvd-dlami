@@ -13,7 +13,7 @@
 
 [Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks. Our goal is to create a multi-machine cluster of EC2 instances using Amazon Machine Learning AMI. This [blog](https://aws.amazon.com/blogs/compute/distributed-deep-learning-made-easy/) is a general background reference for what we are trying to accomplish. In our setup, we are focused on distirbuted training using [TensorFlow](https://github.com/tensorflow/tensorflow), [TensorPack](https://github.com/tensorpack/tensorpack) and [Horovod](https://eng.uber.com/horovod/), so we will be using our own [CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) template, deeplearning-cfn-template.json, included in this project.
 
-Many of the points discussed here are widely applicable in the context of distributed training across many different type of Machine Learning frameworks. However, we will try to be concrete and focus on [TensorPack Mask/Faster-RCNN](https://github.com/tensorpack/tensorpack/tree/master/examples/FasterRCNN) example. 
+The overall solution discussed here can be used to execute any algorithm using some combination of TensorFlow, TensorPack and Horovod, or a subset thereof. However, we will try to be concrete and focus on [TensorPack Mask/Faster-RCNN](https://github.com/tensorpack/tensorpack/tree/master/examples/FasterRCNN) example. 
 
 ## TensorPack Mask/Faster-RCNN Example
 
@@ -45,7 +45,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 6. Once you are logged on the Master node, execute in home direcotry: 
 ```nohup tar -xf /efs/coco-2017.tar --directory /efs &```
 		
-Extraction of coco-2017.tar on EFS shared file system will take a while. 
+   Extraction of coco-2017.tar on EFS shared file system will take a while. 
 When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
         
 7. From home directory on Master node, execute following command to start distributed training: 
@@ -63,7 +63,7 @@ The multi-instance cluster in EC2 has a Master node and 1 or more Worker nodes. 
 
 This distirbuted training setup relies on implicit SSH communication among the nodes. To setup such implcit SSH communication, the Master node relies on [SSH forwarding agent](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/) and this configuration is done as part of creating the AWS CloudFormation stack.
 
-Also, as part of creating the stack, an EFS file-system is automatically created and mounted on all nodes. You may reuse an existing EFS file system without any existing mount-points instead of creating a new instance. See variables defined in deeplearning-cfn-stack.sh shell script on how to re-use an existing EFS file-system.
+Also, as part of creating the stack, an EFS file-system is automatically created and mounted on all nodes. You may reuse an existing EFS file system free of any existing mount-points, instead of having the CloudFormation stack create a new EFS file-system. See variables defined in deeplearning-cfn-stack.sh shell script on how to re-use an existing EFS file-system.
 
 #### OS and Framework Versions
 
