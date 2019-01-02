@@ -9,7 +9,7 @@
 
 ## Create Amazon EC2 Deep-Learning AMI Cluster
 
-[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks. Our goal is to create a multi-machine cluster of EC2 instances using Amazon Machine Learning AMI. This [blog](https://aws.amazon.com/blogs/machine-learning/scalable-multi-node-deep-learning-training-using-gpus-in-the-aws-cloud/) is a general background reference for what we are trying to accomplish. In our setup, we are focused on distirbuted training using TensorFlow, TensorPack and Horovod.
+[Amazon Machine Learning AMIs](https://aws.amazon.com/machine-learning/amis/) are an easy way for developers to launch AWS EC2 instances for machine-learning with many of the commonly used frameworks. Our goal is to create a multi-machine cluster of EC2 instances using Amazon Machine Learning AMI. This [blog](https://aws.amazon.com/blogs/compute/distributed-deep-learning-made-easy/) is a general background reference for what we are trying to accomplish. In our setup, we are focused on distirbuted training using TensorFlow, TensorPack and Horovod, so we will be using our own [CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) template.
 
 ## TensorPack Mask/Faster-RCNN Example
 
@@ -17,13 +17,26 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
 ### Steps
 
-        1. Customize S3_BUCKET variable in prepare-s3-bucket.sh and execute the script
+        1. Customize S3_BUCKET and S3_PREFIX variables in prepare-s3-bucket.sh and execute the script. 
+           
+           This script downloads [Coco 2017](http://cocodataset.org/#download) dataset and Coco
+           [COCO-R50FPN-MaskRCNN-Standard](http://models.tensorpack.com/FasterRCNN/COCO-R50FPN-MaskRCNN-Standard.npz) 
+           pre-trained model. 
+           
+           It bundles the COCO 2017 dataset and pre-trained model into a single 
+           TAR file and uploads it to the S3_BUCKET/S3_PREFIX.
+           
+           In addition, it uploads the shell scripts from this porject to the S3_BUCKET/S3_PREFIX.
   
         2. Customize variables in deeplearning-cfn-stack.sh and execute the script. 
-           The output of executing the script is a CloudFomration Stack ID.
+           
+           You will need to specify S3_BUCKET and S3_PREFIX variables. 
+           See SSH_LOCATION and KEY_NAME Variables section below.
+           
+           The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
 
-        3.  Check status of CloudFomation Stack in AWS management console. 
-            When stack is created, proceed to next step.
+        3.  Check status of CloudFormation Stack you created in AWS management console. 
+            When stack status is CREATE_COMPLETE, proceed to next step.
 
         4. On your desktop  execute, 
         
@@ -33,19 +46,20 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
                 ssh -A ubuntu@<master node>
 
-        6. Once you are logged on the Master node, execute 
+        6. Once you are logged on the Master node, execute in home direcotry:
 
                 nohup tar -xf /efs/coco-2017.tar --directory /efs &
 
-          Extraction of coco-2017.tar on EFS shared file system will take a while.
+          Extraction of coco-2017.tar on EFS shared file system will take a while. 
+          When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
         
-        7. Once coco-2017.tar ix extracted under /efs, execute from home directory on Master node, 
+        7. From home directory on Master node, execute following command to start distributed training:
                         
                 nohup ./run.sh 1>run.out 2>&1 &
                 
-        8. Log directory based on RUN_ID will be created under /efs
+        8. Log directory name and location is defined in run.sh and by default is created under /efs
 
-### SSH_LOCATION, KEY_NAME
+### SSH_LOCATION, KEY_NAME Variables
 
-SSH_LOCATION variable defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_NAME variable defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
+SSH_LOCATION variable used in deeplearning-cfn-stack.sh defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. KEY_NAME variable in deeplearning-cfn-stack.sh defines the [EC2 Key Pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name used to launch EC2 instances.
 
