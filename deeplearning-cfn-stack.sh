@@ -5,13 +5,13 @@
 S3_BUCKET=
 
 #Customize stack name as needed
-STACK_NAME=mask-faster-rcnn
+STACK_NAME=mask-rcnn
 
 # cfn template name
 CFN_TEMPLATE=deeplearning-cfn-template.json
 
 # Cutomize bucket prefix if needed
-S3_PREFIX=mask-faster-rcnn/deeplearning-ami/input
+S3_PREFIX=mask-rcnn/deeplearning-ami/input
 
 # Customize CIDR for SSH 
 SSH_LOCATION=0.0.0.0/0
@@ -33,7 +33,7 @@ AMI_ID=
 EFS_ID=
 
 # EC2 instance type
-INSTANCE_TYPE=p3dn.24xlarge
+INSTANCE_TYPE=p3.16xlarge
 
 # EC2 key pair name
 KEY_NAME=
