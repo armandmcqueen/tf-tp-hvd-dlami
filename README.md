@@ -21,7 +21,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
 ### Quick Start Steps
 
-1. Customize variables in prepare-s3-bucket.sh script and execute it as described below:
+1. Customize variables in ```prepare-s3-bucket.sh``` script and execute it as described below:
 
    S3_BUCKET variable must be set to an existing bucket. To optimize performance and cost, it is recommended that S3_BUCKET be in the region where you plan to do distributed training. 
 
@@ -34,7 +34,10 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
    Execute the script: ```nohup ./prepare-s3-bucket.sh & ```
   
    You can use the [screen](https://linuxize.com/post/how-to-use-linux-screen/) command as an alternative to using ```nohup``` command.
-2. Customize variables in deeplearning-cfn-stack.sh and execute the script. You will need to specify S3_BUCKET and S3_PREFIX variables. See SSH_LOCATION and KEY_NAME Variables section below. The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
+   
+2. Customize variables in ```deeplearning-cfn-stack.sh```. You will need to specify S3_BUCKET and S3_PREFIX variables and make sure they are the same as in Step 1 above. See SSH_LOCATION and KEY_NAME Variables section below. Execute: ```./deeplearning-cfn-stack.sh```
+
+   The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
 
 3.  Check status of CloudFormation Stack you created in AWS management console. When stack status is CREATE_COMPLETE, proceed to next step.
 
@@ -46,12 +49,12 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 6. Once you are logged on the Master node, execute in home direcotry: 
 ```nohup tar -xf /efs/coco-2017.tar --directory /efs &```
 		
-   Extraction of coco-2017.tar on EFS shared file system will take a while. 
+   Extraction of ```coco-2017.tar``` on EFS shared file system will take a while. 
 When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
         
 7. From home directory on Master node, execute following command to start distributed training: ```nohup ./run.sh 1>run.out 2>&1 &```
                 
-8. Model checkpoints and log directory name and location is defined in run.sh and by default is created under /efs
+8. Model checkpoint output location and log directory location are both defined in ```run.sh``` and by default are located under ```/efs```
         
 9. When the training is complete, you may safely delete the CloudFormation stack created in Step 2 above. The log files and model checkpoints are saved on EFS file-system, which is not automatically deleted.
 
@@ -59,7 +62,7 @@ When this step is complete, you should see COCO dataset and pre-trained model un
 
 The easiest way to do distributed training using TensorFlow, TensorPack and Horovod in AWS EC2 is to create an AWS CloudFormation stack that instantiates an Amazon Deep Learning AMI based cluster of GPU enabled EC2 instances.
 
-The multi-instance cluster in EC2 has a Master node and 1 or more Worker nodes. The Master node and Worker nodes are running within two separate AWS Auto-scaling groups. The Master node is within a public subnet that can be accessed remotely and the Workers nodes are in a private subnet accessible only from the Master node. All nodes are used for distributd training. 
+The multi-instance cluster in EC2 has a Master node and 1 or more Worker nodes. The Master node and Worker nodes are running within two separate AWS Auto-scaling groups. The Master node is within a public subnet that can be accessed remotely and the Worker nodes are in a private subnet accessible only from the Master node. All nodes are used for distributd training. 
 
 This distirbuted training setup relies on implicit SSH communication among the nodes. To setup such implcit SSH communication, the Master node relies on [SSH forwarding agent](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/) and this configuration is done as part of creating the AWS CloudFormation stack.
 
@@ -75,7 +78,7 @@ You may experiment with different versions of Deep Learning AMI based on differe
 
 Distributed machine-learning in general and this specific setup are not automatically resilient to any node failure. If any node fails, the easiest thing to do is to delete the stack and create a new stack reusing existing EFS file-system. Modify run.sh to restart training from a saved model checkpoint.
 
-You can use the provided cluster-health-check.sh shell script to determine cluster health.
+You can use the provided ```cluster-health-check.sh``` shell script to determine cluster health.
 
 #### SSH_LOCATION, KEY_NAME Variables
 SSH_LOCATION variable used in deeplearning-cfn-stack.sh defines the allowed source CIDR for connecting to the cluster Master node using SSH. This CIDR is used to define Master node SSH [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) incoming instance level network seucrity rules. You can modify the security group after the creation of the cluster, but at least one CIDR at cluster creation time is required. The default value of this variable allows access from any location, which is not recommended practice, so you are advised to change it to your specific CIDR.
