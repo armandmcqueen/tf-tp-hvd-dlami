@@ -33,6 +33,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
    
    Execute the script: ```nohup ./prepare-s3-bucket.sh & ```
   
+   You can use the [screen](https://linuxize.com/post/how-to-use-linux-screen/) command as an alternative to using ```nohup``` command.
 2. Customize variables in deeplearning-cfn-stack.sh and execute the script. You will need to specify S3_BUCKET and S3_PREFIX variables. See SSH_LOCATION and KEY_NAME Variables section below. The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
 
 3.  Check status of CloudFormation Stack you created in AWS management console. When stack status is CREATE_COMPLETE, proceed to next step.
@@ -40,7 +41,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 4. On your desktop  execute:
 ```ssh-add <private key file>```
 
-5. Use SSH with forwarding agent to connect to Master Node:  ```ssh -A ubuntu@<master node>```
+5. Use SSH with forwarding agent to connect to Master Node:  ```ssh -A ubuntu@<master node>``` and do not restart the Master node despite the restart suggestion when you login.
 
 6. Once you are logged on the Master node, execute in home direcotry: 
 ```nohup tar -xf /efs/coco-2017.tar --directory /efs &```
