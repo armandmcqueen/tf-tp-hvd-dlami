@@ -49,8 +49,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
    Extraction of coco-2017.tar on EFS shared file system will take a while. 
 When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
         
-7. From home directory on Master node, execute following commands to start distributed training: 
-```chmod u+x ./run.sh``` followed by ```nohup ./run.sh 1>run.out 2>&1 &```
+7. From home directory on Master node, execute following command to start distributed training: ```nohup ./run.sh 1>run.out 2>&1 &```
                 
 8. Model checkpoints and log directory name and location is defined in run.sh and by default is created under /efs
         
