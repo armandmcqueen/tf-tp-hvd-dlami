@@ -72,6 +72,7 @@ $MPIRUN -np $NUM_PARALLEL \
 --hostfile ./hostfile \
 --mca plm_rsh_no_tree_spawn 1 -bind-to none -map-by slot -mca pml ob1 -mca btl ^openib \
 -mca btl_tcp_if_exclude lo,docker0 \
+-mca btl_vader_single_copy_mechanism none \
 -x NCCL_SOCKET_IFNAME=^docker0 \
 -x NCCL_MIN_NRINGS=8 -x NCCL_DEBUG=INFO \
 -x LD_LIBRARY_PATH -x PATH \
