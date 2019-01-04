@@ -31,10 +31,10 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 
    It bundles the COCO 2017 dataset and pre-trained model into a single TAR file and uploads it to the S3_BUCKET/S3_PREFIX. In addition, it uploads the shell scripts from this project to the S3_BUCKET/S3_PREFIX.
    
+   **You can use the [screen](https://linuxize.com/post/how-to-use-linux-screen/) command as an alternative to using ```nohup``` and ```screen``` appears to work more reliably than ```nohup``` command.**
+   
    Execute the script: ```nohup ./prepare-s3-bucket.sh & ```
   
-   You can use the [screen](https://linuxize.com/post/how-to-use-linux-screen/) command as an alternative to using ```nohup``` command.
-   
 2. Customize variables in ```deeplearning-cfn-stack.sh```. You will need to specify S3_BUCKET and S3_PREFIX variables and make sure they are the same as in Step 1 above. See SSH_LOCATION and KEY_NAME Variables section below. Execute: ```./deeplearning-cfn-stack.sh```
 
    The output of executing the script is a [CloudFormation Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) ID.
