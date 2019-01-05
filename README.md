@@ -47,7 +47,7 @@ Specifically, our goal is to do distributed training for TensorPack Mask/Faster-
 5. Use SSH with forwarding agent to connect to Master Node:  ```ssh -A ubuntu@<master node>``` and do not restart the Master node despite the restart suggestion when you login.
 
 6. Once you are logged on the Master node, execute in home direcotry: 
-```nohup tar -xf /efs/coco-2017.tar --directory /efs &```
+```nohup tar -xvf /efs/coco-2017.tar --directory /efs &```
 		
    Extraction of ```coco-2017.tar``` on EFS shared file system will take a while. 
 When this step is complete, you should see COCO dataset and pre-trained model under /efs/data,
